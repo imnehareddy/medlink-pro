@@ -4,6 +4,14 @@ session_start();
 
 include '../db.php';
 
+if(!isset($_SESSION['admin'])){
+
+header("Location: admin_login.php");
+
+exit();
+
+}
+
 /* COUNTS */
 
 $patients =
@@ -38,9 +46,30 @@ href="../style.css">
 src="https://cdn.jsdelivr.net/npm/chart.js">
 </script>
 
+<style>
+
+.chart-box{
+
+background:white;
+
+padding:30px;
+
+border-radius:25px;
+
+box-shadow:
+0 8px 25px rgba(0,0,0,0.15);
+
+margin-top:30px;
+
+}
+
+</style>
+
 </head>
 
 <body>
+
+<!-- NAVBAR -->
 
 <div class="navbar">
 
@@ -72,20 +101,88 @@ Logout
 
 </div>
 
+<!-- MAIN -->
+
 <div class="container-box"
 style="max-width:1200px;">
 
 <h1
 style="
 text-align:center;
-margin-bottom:30px;
+margin-bottom:20px;
 ">
 
 Analytics Dashboard 📊
 
 </h1>
 
+<p
+style="
+text-align:center;
+margin-bottom:30px;
+font-size:16px;
+">
+
+System overview of patients,
+doctors, and appointments.
+
+</p>
+
+<!-- CARDS -->
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card">
+
+<h2>
+👥 Patients
+</h2>
+
+<h1>
+
+<?php echo $patients; ?>
+
+</h1>
+
+</div>
+
+<div class="dashboard-card">
+
+<h2>
+👨‍⚕️ Doctors
+</h2>
+
+<h1>
+
+<?php echo $doctors; ?>
+
+</h1>
+
+</div>
+
+<div class="dashboard-card">
+
+<h2>
+📅 Appointments
+</h2>
+
+<h1>
+
+<?php echo $appointments; ?>
+
+</h1>
+
+</div>
+
+</div>
+
+<!-- CHART -->
+
+<div class="chart-box">
+
 <canvas id="myChart"></canvas>
+
+</div>
 
 </div>
 
@@ -101,14 +198,16 @@ type: 'bar',
 data: {
 
 labels: [
+
 'Patients',
 'Doctors',
 'Appointments'
+
 ],
 
 datasets: [{
 
-label: 'System Analytics',
+label: 'System Statistics',
 
 data: [
 
@@ -118,6 +217,16 @@ data: [
 
 ],
 
+backgroundColor: [
+
+'#4facfe',
+'#43e97b',
+'#fa709a'
+
+],
+
+borderRadius: 12,
+
 borderWidth: 1
 
 }]
@@ -126,11 +235,50 @@ borderWidth: 1
 
 options: {
 
+responsive:true,
+
+plugins: {
+
+legend: {
+
+labels: {
+
+color:'#333',
+font:{
+size:14
+}
+
+}
+
+}
+
+},
+
 scales: {
 
 y: {
 
-beginAtZero: true
+beginAtZero:true,
+
+ticks:{
+color:'#333'
+},
+
+grid:{
+color:'#ddd'
+}
+
+},
+
+x: {
+
+ticks:{
+color:'#333'
+},
+
+grid:{
+display:false
+}
 
 }
 
