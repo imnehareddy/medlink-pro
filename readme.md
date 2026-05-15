@@ -13,12 +13,6 @@ https://medlinkpro.infinityfreeapp.com
 
 ---
 
-# 💻 GitHub Repository
-
-Add your GitHub repository link here.
-
----
-
 # 🚀 Features
 
 ## 👤 Patient Module
